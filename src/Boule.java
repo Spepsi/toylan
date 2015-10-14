@@ -25,6 +25,16 @@ public class Boule {
 		if(i.isKeyDown(Input.KEY_RIGHT))
 			this.x += velocity;
 	}
+	public void move(String s){
+		if(s.charAt(3)=='1')
+			this.y -= velocity;
+		if(s.charAt(0)=='1')
+			this.y += velocity;
+		if(s.charAt(1)=='1')
+			this.x -= velocity;
+		if(s.charAt(2)=='1')
+			this.x += velocity;
+	}
 	
 	public String toString(){
 		return x+" "+y;

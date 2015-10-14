@@ -4,6 +4,7 @@ import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 
@@ -16,6 +17,9 @@ public class Game extends BasicGame{
 	public Vector<String> outBox = new Vector<String>();
 	
 	public String lan;
+	
+	//concerning allhost
+	public boolean host;
 
 	public Game(String title, String lan) {
 		super(title);
@@ -49,7 +53,23 @@ public class Game extends BasicGame{
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		switch(lan){
 		case "basic": updateBasicLan(gc);
+		case "allhost": updateAllHost(gc);
 		default:
+		}
+		
+	}
+
+	private void updateAllHost(GameContainer gc) {
+		if(host){
+			if(this.inBox.size()>0)
+				this.boules.get(3-currentPlayer).move(inBox.remove(0));
+			inBox.clear();
+			this.boules.get(currentPlayer).move(gc.getInput());
+			outBox.add(this.toString());
+		} else {
+			this.outBox.addElement(inputToString(gc.getInput()));
+			if(this.inBox.size()>0);
+				this.update(inBox.remove(0));
 		}
 		
 	}
@@ -61,6 +81,27 @@ public class Game extends BasicGame{
 			this.boules.get(3-currentPlayer).update(this.inBox.remove(0));
 		
 		this.inBox.clear();
+	}
+	
+	public static String inputToString(Input i){
+		return ""+(i.isKeyDown(Input.KEY_DOWN)?1:0)+(i.isKeyDown(Input.KEY_LEFT)?1:0)+(i.isKeyDown(Input.KEY_RIGHT)?1:0)+(i.isKeyDown(Input.KEY_UP)?1:0);
+	}
+	public String toString(){
+		String s = "";
+		for(Boule b: this.boules)
+			s+=b.toString()+"|";
+		return s;
+	}
+	public void update(String s){
+		String s1 = s;
+		int i = 0, j = 0;
+		while(s1.length()>1){
+			i = 0;
+			while(s1.charAt(i)!='|')
+				i++;
+			this.boules.get(j).update(s1.substring(0, i));
+			s1 = s1.substring(i+1, s1.length());
+		}
 	}
 
 }
