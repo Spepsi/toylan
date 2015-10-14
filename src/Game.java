@@ -21,7 +21,7 @@ public class Game extends BasicGame{
 	public int idBullet = 0;
 	
 	//concerning allhost
-	public boolean host=false;
+	public boolean host=true;
 
 	public Game(String title, String lan) {
 		super(title);
