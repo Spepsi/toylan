@@ -15,8 +15,10 @@ public class Game extends BasicGame{
 	public int currentPlayer = 1;
 	public Vector<String> inBox = new Vector<String>();
 	public Vector<String> outBox = new Vector<String>();
-	
+	public Vector<Bullet> bullets = new Vector<Bullet>();
 	public String lan;
+	
+	public int idBullet = 0;
 	
 	//concerning allhost
 	public boolean host=false;
@@ -24,9 +26,9 @@ public class Game extends BasicGame{
 	public Game(String title, String lan) {
 		super(title);
 		this.lan = lan;
-		boules.add(new Boule((float)(Math.random()*600),(float)(Math.random()*600),Color.gray));
-		boules.add(new Boule((float)(Math.random()*600),(float)(Math.random()*600),Color.cyan));
-		boules.add(new Boule((float)(Math.random()*600),(float)(Math.random()*600),Color.pink));
+		boules.add(new Boule((float)(Math.random()*600),(float)(Math.random()*600),Color.gray,this,0));
+		boules.add(new Boule((float)(Math.random()*600),(float)(Math.random()*600),Color.cyan,this,1));
+		boules.add(new Boule((float)(Math.random()*600),(float)(Math.random()*600),Color.pink,this,2));
 	}
 
 	@Override
@@ -36,6 +38,10 @@ public class Game extends BasicGame{
 		for(Boule boule : boules){
 			g.setColor(boule.color);
 			g.fillOval(boule.x-20,boule.y-20,40,40);
+		}
+		for(Bullet boule: bullets){
+			g.setColor(boule.color);
+			g.fillOval(boule.x-5,boule.y-5,10,10);
 		}
 		
 	}
@@ -65,11 +71,15 @@ public class Game extends BasicGame{
 				this.boules.get(3-currentPlayer).move(inBox.remove(0));
 			inBox.clear();
 			this.boules.get(currentPlayer).move(gc.getInput());
+			for(Bullet b: this.bullets)
+				b.move();
 			outBox.add(this.toString());
 		} else {
 			this.outBox.addElement(inputToString(gc.getInput()));
 			if(this.inBox.size()>0)
 				this.update(inBox.remove(0));
+			inBox.clear();
+			System.out.println();
 		}
 		
 	}
@@ -84,26 +94,49 @@ public class Game extends BasicGame{
 	}
 	
 	public static String inputToString(Input i){
-		return ""+(i.isKeyDown(Input.KEY_DOWN)?1:0)+(i.isKeyDown(Input.KEY_LEFT)?1:0)+(i.isKeyDown(Input.KEY_RIGHT)?1:0)+(i.isKeyDown(Input.KEY_UP)?1:0);
+		return  ""+(i.isKeyDown(Input.KEY_DOWN)?1:0)+(i.isKeyDown(Input.KEY_LEFT)?1:0)+(i.isKeyDown(Input.KEY_RIGHT)?1:0)+(i.isKeyDown(Input.KEY_UP)?1:0)+
+				(i.isKeyDown(Input.KEY_S)?1:0)+(i.isKeyDown(Input.KEY_Q)?1:0)+(i.isKeyDown(Input.KEY_D)?1:0)+(i.isKeyDown(Input.KEY_Z)?1:0);
+
 	}
 	public String toString(){
 		String s = "";
 		for(Boule b: this.boules)
 			s+=b.toString()+"|";
+		for(Bullet b: this.bullets)
+			s+=b.toString()+"|";
 		return s;
 	}
 	public void update(String s){
-		System.out.println(s);
+		//System.out.println(s);
 		String s1 = s;
 		int i = 0, j = 0;
 		while(j<3){
 			i = 0;
 			while(s1.charAt(i)!='|')
 				i++;
-			System.out.println(s1.substring(0, i));
+			//System.out.println(s1.substring(0, i));
 			this.boules.get(j).update(s1.substring(0, i));
 			s1 = s1.substring(i+1, s1.length());
 			j++;
+		}
+		while(s1.charAt(0)!=' '){
+			//System.out.println(s1.substring(0, i));
+			int k = 0;
+			while(s1.charAt(k)!='-')
+				k++;
+			int id = Integer.parseInt(s1.substring(0,k));
+			Bullet toChange = null;
+			for(Bullet b: this.bullets)
+				if(b.id == id)
+					toChange = b;
+			i = k+1;
+			while(s1.charAt(i)!='|')
+				i++;
+			if(toChange!=null)	
+				toChange.update(s1.substring(k+1, i));
+			else
+				this.bullets.addElement(new Bullet(s1.substring(0, k),id));
+			s1 = s1.substring(k+1, s1.length());
 		}
 	}
 

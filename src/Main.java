@@ -7,7 +7,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
 public class Main {
-	public static int framerate = 60;
+	public static int framerate =60;
 	
 	public static void main(String[] args) {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -22,7 +22,7 @@ public class Main {
 			
 			app.setDisplayMode(resolutionX, resolutionY,false);
 			app.setTargetFrameRate(Main.framerate);
-			app.setVSync(true);
+			//app.setVSync(true);
 			//app.setMaximumLogicUpdateInterval(16);
 			app.start();
 		} catch (SlickException e) {
