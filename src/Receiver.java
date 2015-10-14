@@ -35,7 +35,7 @@ public class Receiver extends Thread{
 			if(debug)
 				System.out.println("Cretion d'un receiver - " + port);
 			while(!server.isClosed()){
-				message = new byte[40];
+				message = new byte[8000];
 				packet = new DatagramPacket(message, message.length);
 				try{
 					server.receive(packet);

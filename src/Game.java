@@ -93,9 +93,10 @@ public class Game extends BasicGame{
 		return s;
 	}
 	public void update(String s){
+		System.out.println(s);
 		String s1 = s;
 		int i = 0, j = 0;
-		while(s1.length()>1){
+		while(j<3){
 			i = 0;
 			while(s1.charAt(i)!='|')
 				i++;
