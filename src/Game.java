@@ -19,7 +19,7 @@ public class Game extends BasicGame{
 	public String lan;
 	
 	//concerning allhost
-	public boolean host;
+	public boolean host=false;
 
 	public Game(String title, String lan) {
 		super(title);
@@ -68,7 +68,7 @@ public class Game extends BasicGame{
 			outBox.add(this.toString());
 		} else {
 			this.outBox.addElement(inputToString(gc.getInput()));
-			if(this.inBox.size()>0);
+			if(this.inBox.size()>0)
 				this.update(inBox.remove(0));
 		}
 		
@@ -99,8 +99,10 @@ public class Game extends BasicGame{
 			i = 0;
 			while(s1.charAt(i)!='|')
 				i++;
+			System.out.println(s1.substring(0, i));
 			this.boules.get(j).update(s1.substring(0, i));
 			s1 = s1.substring(i+1, s1.length());
+			j++;
 		}
 	}
 
