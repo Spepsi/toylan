@@ -17,7 +17,7 @@ public class Main {
 		int resolutionY = 600;
 		
 		try {
-			Game game = new Game("gilles");
+			Game game = new Game("gilles","basic");
 			AppGameContainer app = new AppGameContainer( game );
 			
 			app.setDisplayMode(resolutionX, resolutionY,false);
