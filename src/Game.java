@@ -21,7 +21,7 @@ public class Game extends BasicGame{
 	public int idBullet = 0;
 	
 	//concerning allhost
-	public boolean host=true;
+	public boolean host=false;
 
 	public Game(String title, String lan) {
 		super(title);
@@ -104,10 +104,11 @@ public class Game extends BasicGame{
 			s+=b.toString()+"|";
 		for(Bullet b: this.bullets)
 			s+=b.toString()+"|";
+		s+="    p";
 		return s;
 	}
 	public void update(String s){
-		//System.out.println(s);
+		System.out.println(s);
 		String s1 = s;
 		int i = 0, j = 0;
 		while(j<3){
@@ -120,7 +121,7 @@ public class Game extends BasicGame{
 			j++;
 		}
 		while(s1.charAt(0)!=' '){
-			//System.out.println(s1.substring(0, i));
+			System.out.println(s1.charAt(0));
 			int k = 0;
 			while(s1.charAt(k)!='-')
 				k++;
@@ -135,8 +136,8 @@ public class Game extends BasicGame{
 			if(toChange!=null)	
 				toChange.update(s1.substring(k+1, i));
 			else
-				this.bullets.addElement(new Bullet(s1.substring(0, k),id));
-			s1 = s1.substring(k+1, s1.length());
+				this.bullets.addElement(new Bullet(s1.substring(k+1, i),id));
+			s1 = s1.substring(i+1, s1.length());
 		}
 	}
 
